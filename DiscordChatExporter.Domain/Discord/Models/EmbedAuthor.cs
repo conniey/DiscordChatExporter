@@ -6,11 +6,15 @@ namespace DiscordChatExporter.Domain.Discord.Models
     // https://discord.com/developers/docs/resources/channel#embed-object-embed-author-structure
     public partial class EmbedAuthor
     {
-        public string? Name { get; }
+        public string? Name { get; set; }
 
-        public string? Url { get; }
+        public string? Url { get; set; }
 
-        public string? IconUrl { get; }
+        public string? IconUrl { get; set; }
+
+        public EmbedAuthor()
+        {
+        }
 
         public EmbedAuthor(string? name, string? url, string? iconUrl)
         {

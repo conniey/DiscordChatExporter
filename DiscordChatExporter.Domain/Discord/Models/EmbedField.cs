@@ -6,11 +6,13 @@ namespace DiscordChatExporter.Domain.Discord.Models
     // https://discord.com/developers/docs/resources/channel#embed-object-embed-field-structure
     public partial class EmbedField
     {
-        public string Name { get; }
+        public string Name { get; set; }
 
-        public string Value { get; }
+        public string Value { get; set; }
 
-        public bool IsInline { get; }
+        public bool IsInline { get; set; }
+
+        public EmbedField() { }
 
         public EmbedField(string name, string value, bool isInline)
         {

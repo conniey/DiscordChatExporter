@@ -6,9 +6,13 @@ namespace DiscordChatExporter.Domain.Discord.Models
     // https://discord.com/developers/docs/resources/channel#embed-object-embed-footer-structure
     public partial class EmbedFooter
     {
-        public string Text { get; }
+        public string Text { get; set; }
 
-        public string? IconUrl { get; }
+        public string? IconUrl { get; set; }
+
+        public EmbedFooter()
+        {
+        }
 
         public EmbedFooter(string text, string? iconUrl)
         {

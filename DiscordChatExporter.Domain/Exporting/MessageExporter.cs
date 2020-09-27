@@ -81,7 +81,8 @@ namespace DiscordChatExporter.Domain.Exporting
             // Inject partition index into file name
             var fileNameWithoutExt = Path.GetFileNameWithoutExtension(baseFilePath);
             var fileExt = Path.GetExtension(baseFilePath);
-            var fileName = $"{fileNameWithoutExt} [part {partitionIndex + 1}]{fileExt}";
+            var part = partitionIndex + 1;
+            var fileName = $"{fileNameWithoutExt}.{part:00}{fileExt}";
 
             // Generate new path
             var dirPath = Path.GetDirectoryName(baseFilePath);

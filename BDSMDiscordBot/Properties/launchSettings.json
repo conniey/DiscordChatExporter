@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "DiscordImporterBot": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "IS_DEBUG": "false"
+      }
+    }
+  }
+}
