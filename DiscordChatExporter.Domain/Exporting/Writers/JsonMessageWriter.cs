@@ -205,7 +205,7 @@ namespace DiscordChatExporter.Domain.Exporting.Writers
             _writer.WriteBoolean("isPinned", message.IsPinned);
 
             // Content
-            _writer.WriteString("content", FormatMarkdown(message.Content));
+            _writer.WriteString("content", message.Content);
 
             // Author
             _writer.WriteStartObject("author");
