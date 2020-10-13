@@ -7,7 +7,7 @@ namespace BDSMDiscordBot.Models
     // https://discord.com/developers/docs/resources/channel#attachment-object
     public class ChannelAttachment : Identifiable
     {
-        private static readonly HashSet<string> ImageFileExtensions =
+        private static readonly HashSet<string> s_imageFileExtensions =
             new HashSet<string>(StringComparer.OrdinalIgnoreCase) { ".jpg", ".jpeg", ".png", ".gif", ".bmp" };
 
         public string? Id { get; set; }
@@ -22,7 +22,7 @@ namespace BDSMDiscordBot.Models
 
         public int? SizeInBytes { get; set; }
 
-        public bool IsImage => FileName != null ? ImageFileExtensions.Contains(Path.GetExtension(FileName)) : false;
+        public bool IsImage => FileName != null ? s_imageFileExtensions.Contains(Path.GetExtension(FileName)) : false;
 
         public bool IsSpoiler => FileName != null && IsImage
             && FileName.StartsWith("SPOILER_", StringComparison.Ordinal);

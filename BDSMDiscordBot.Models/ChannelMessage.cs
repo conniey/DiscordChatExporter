@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace BDSMDiscordBot.Models
 {
@@ -13,7 +12,7 @@ namespace BDSMDiscordBot.Models
 
         public DiscordUser? Author { get; set; }
 
-        public DateTimeOffset Timestamp { get; set; }
+        public DateTimeOffset? Timestamp { get; set; }
 
         public DateTimeOffset? EditedTimestamp { get; set; }
 

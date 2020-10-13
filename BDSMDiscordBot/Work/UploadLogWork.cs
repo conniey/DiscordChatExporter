@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using BDSMDiscordBot.Models;
 using Discord;
 using Discord.WebSocket;
 using DiscordImporterBot.Models;
@@ -72,7 +73,7 @@ namespace DiscordImporterBot.Work
             await _executedInChannel.SendMessageAsync($"FINISHED [{RequestId}]...").ConfigureAwait(false);
         }
 
-        private async Task UploadMessageAsync(Message message)
+        private async Task UploadMessageAsync(ChannelMessage message)
         {
             var hasAttachments = message.Attachments?.Any() ?? false;
             if (message.Author.IsBot && _skipBotMessages)
@@ -125,7 +126,7 @@ namespace DiscordImporterBot.Work
             }
         }
 
-        private Task UploadAsync(Message message, bool isFirstEntry)
+        private Task UploadAsync(ChannelMessage message, bool isFirstEntry)
         {
             var embed = isFirstEntry
                 ? WithOriginalInformation(message).Build()
@@ -133,8 +134,7 @@ namespace DiscordImporterBot.Work
             return _destinationChannel.SendMessageAsync(message.Content, embed: embed);
         }
 
-        private async Task UploadAsync(Message message,
-            DiscordChatExporter.Domain.Discord.Models.Attachment attachment, bool isFirstEntry)
+        private async Task UploadAsync(ChannelMessage message, ChannelAttachment attachment, bool isFirstEntry)
         {
             var fullPath = Path.Combine(_filesDirectory, attachment.Url);
 
@@ -150,7 +150,7 @@ namespace DiscordImporterBot.Work
             }
         }
 
-        private async Task UploadAsync(Message message,
+        private async Task UploadAsync(ChannelMessage message,
             DiscordChatExporter.Domain.Discord.Models.Embed embed, bool isFirstEntry)
         {
             var content = isFirstEntry ? message.Content : string.Empty;
@@ -209,11 +209,10 @@ namespace DiscordImporterBot.Work
                 .ConfigureAwait(false);
         }
 
-        private EmbedBuilder WithOriginalInformation(Message message)
+        private EmbedBuilder WithOriginalInformation(ChannelMessage message)
         {
-            var discriminator = int.Parse(message.Author.Discriminator);
             return new EmbedBuilder()
-                .WithAuthor(builder => builder.WithName($"{message.Author.Name}:{discriminator:0000} ({message.Author.Id})"))
+                .WithAuthor(builder => builder.WithName($"{message.Author.FullName} ({message.Author.Id})"))
                 .WithFooter(builder => builder.WithText($"{message.Timestamp:s}\tId: {message.Id}"));
         }
     }

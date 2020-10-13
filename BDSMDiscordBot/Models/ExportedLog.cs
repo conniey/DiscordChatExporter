@@ -1,7 +1,7 @@
-﻿using DiscordChatExporter.Domain.Discord.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using BDSMDiscordBot.Models;
 
 namespace DiscordImporterBot.Models
 {
@@ -9,11 +9,11 @@ namespace DiscordImporterBot.Models
     {
         public Guild Guild { get; set; }
 
-        public Channel Channel { get; set; }
+        public DiscordChannel Channel { get; set; }
 
         public ExportDateRange DateRange { get; set; }
 
-        public List<Message> Messages { get; set; } = new List<Message>();
+        public List<ChannelMessage> Messages { get; set; } = new List<ChannelMessage>();
 
         public int MessageCount { get; set; }
 

@@ -1,6 +1,9 @@
 ﻿namespace BDSMDiscordBot.Models
 {
-    // https://discord.com/developers/docs/resources/channel#reaction-object
+    /// <summary>
+    /// Represents a reaction to a <see cref="ChannelMessage"/>.
+    /// </summary>
+    /// <seealso cref="https://discord.com/developers/docs/resources/channel#reaction-object"/>
     public class ChannelReaction : Identifiable
     {
         /// <summary>
