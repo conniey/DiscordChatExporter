@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30503.244
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BDSMDiscordBot", "DiscordImporterBot\BDSMDiscordBot.csproj", "{875AD248-A0EB-44CE-B602-35EABA8EEBFC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BDSMDiscordBot", "BDSMDiscordBot\BDSMDiscordBot.csproj", "{875AD248-A0EB-44CE-B602-35EABA8EEBFC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiscordChatExporter.Domain", "DiscordChatExporter.Domain\DiscordChatExporter.Domain.csproj", "{5978DCB9-7C7D-42D1-981E-B5A96D2DF811}"
 EndProject
