@@ -6,13 +6,11 @@ namespace DiscordChatExporter.Domain.Discord.Models
     // https://discord.com/developers/docs/resources/channel#embed-object-embed-image-structure
     public partial class EmbedImage
     {
-        public string? Url { get; set; }
+        public string? Url { get; }
 
-        public int? Width { get; set; }
+        public int? Width { get; }
 
-        public int? Height { get; set; }
-
-        public EmbedImage() { }
+        public int? Height { get; }
 
         public EmbedImage(string? url, int? width, int? height)
         {

@@ -24,7 +24,7 @@ namespace DiscordChatExporter.Domain.Discord.Models
         {
             Id = id;
             IsBot = isBot;
-            Discriminator = discriminator.ToString("0000");
+            Discriminator = discriminator;
             Name = name;
             AvatarUrl = avatarUrl;
         }
