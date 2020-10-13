@@ -1,7 +1,7 @@
-﻿using DiscordChatExporter.Domain.Discord.Models;
-using System;
+﻿using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using BDSMDiscordBot.Models;
 
 namespace DiscordImporterBot.Models
 {

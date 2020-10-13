@@ -150,8 +150,7 @@ namespace DiscordImporterBot.Work
             }
         }
 
-        private async Task UploadAsync(ChannelMessage message,
-            DiscordChatExporter.Domain.Discord.Models.Embed embed, bool isFirstEntry)
+        private async Task UploadAsync(ChannelMessage message, ChannelEmbed embed, bool isFirstEntry)
         {
             var content = isFirstEntry ? message.Content : string.Empty;
             var embedBuilder = isFirstEntry

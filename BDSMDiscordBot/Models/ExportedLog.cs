@@ -7,7 +7,7 @@ namespace DiscordImporterBot.Models
 {
     public class ExportedLog
     {
-        public Guild Guild { get; set; }
+        public DiscordGuild Guild { get; set; }
 
         public DiscordChannel Channel { get; set; }
 
