@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "DiscordImporterBot": {
+    "BDSMDiscordBot": {
       "commandName": "Project",
       "environmentVariables": {
         "IS_DEBUG": "false"
