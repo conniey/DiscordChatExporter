@@ -13,7 +13,7 @@
         /// <example>
         /// Given the user: Foo#0143, this would return 143.
         /// </example>
-        public int? Discriminator { get; set; }
+        public string? Discriminator { get; set; }
 
         /// <summary>
         /// Gets the username of the user.
@@ -21,7 +21,7 @@
         /// <example>
         /// Given the user: Foo#0143, this would return Foo.
         /// </example>
-        public string? Username { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// Gets the username with the discriminator.
@@ -29,7 +29,7 @@
         /// <example>
         /// Given the user: Foo#0143, this would return Foo#0143.
         /// </example>
-        public string FullName => $"{Username}#{Discriminator:0000}";
+        public string FullName => $"{Name}#{Discriminator}";
 
         /// <summary>
         /// Gets the URL for the profile picture.

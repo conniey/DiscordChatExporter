@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Threading.Tasks;
 using Discord.Commands;
 using Discord.WebSocket;
-using DiscordImporterBot.Configuration;
 using DiscordImporterBot.Work;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace DiscordImporterBot
 {
@@ -31,8 +28,8 @@ namespace DiscordImporterBot
         [Command("export")]
         [Summary("Exports users who match a particular set of roles.")]
         public async Task ExportUsersAsync(
-            [Summary("Destination Guild Id")]ulong destinationGuildId,
-            [Summary("Destination Channel Id")]ulong destinationChannelId,
+            [Summary("Destination Guild Id")] ulong destinationGuildId,
+            [Summary("Destination Channel Id")] ulong destinationChannelId,
             [Summary("Roles")] params string[] roles)
         {
             if (!_permissionResolver.HasPermission(Context.Guild, Context.User))
@@ -72,7 +69,7 @@ namespace DiscordImporterBot
         [Command("clear")]
         [Summary("Removes a role from users who have had the role longer than 2 weeks.")]
         public async Task RemoveRoleAsync(
-            [Summary("Role to remove")]string role = ".")
+            [Summary("Role to remove")] string role = ".")
         {
             if (!_permissionResolver.HasPermission(Context.Guild, Context.User))
             {

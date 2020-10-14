@@ -1,22 +1,22 @@
 ﻿using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Discord;
+using BDSMDiscordBot.Models;
 
 namespace DiscordImporterBot.Models
 {
-    class MessageTypeConverter : JsonConverter<MessageType>
+    class MessageTypeConverter : JsonConverter<ChannelMessageType>
     {
-        public override MessageType Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public override ChannelMessageType Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             var type = reader.GetString();
 
-            return Enum.TryParse<MessageType>(type, out var result)
+            return Enum.TryParse<ChannelMessageType>(type, out var result)
                 ? result
                 : throw new NotSupportedException($"{type} is not supported");
         }
 
-        public override void Write(Utf8JsonWriter writer, MessageType value, JsonSerializerOptions options) 
+        public override void Write(Utf8JsonWriter writer, ChannelMessageType value, JsonSerializerOptions options)
             => writer.WriteStringValue(value.ToString());
     }
 }
