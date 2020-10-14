@@ -1,61 +1,55 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Discord.WebSocket;
 using DiscordImporterBot.Configuration;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace DiscordImporterBot
 {
+    /// <summary>
+    /// Resolves permissions and whether a user can use a command.
+    /// </summary>
     public class PermissionResolver
     {
-        private readonly DiscordSocketClient _client;
-        private readonly ILogger<PermissionResolver> _logger;
-        private readonly ulong _originalGuildId;
         private readonly HashSet<ulong> _allowedUsers;
-        private readonly AllowedUsersConfiguration _allowedUsersConfiguration;
-        private volatile int isInitialized = 0;
+        private readonly HashSet<string> _roles;
 
-        public PermissionResolver(DiscordSocketClient client, IOptions<AppConfiguration> options, ILogger<PermissionResolver> logger)
+        public PermissionResolver(DiscordSocketClient client, IOptions<AppConfiguration> options)
         {
-            _client = client;
-            _logger = logger;
-
             var configuration = options.Value ?? throw new ArgumentNullException("'appConfiguration' cannot be null.");
-            _originalGuildId = ulong.Parse(configuration.Guild.Original);
-            _allowedUsersConfiguration = configuration.AllowedUsers;
-            _allowedUsers = new HashSet<ulong>(_allowedUsersConfiguration?.Users?.Select(x => ulong.Parse(x))
+            var allowedUsersConfiguration = configuration.AllowedUsers;
+
+            _allowedUsers = new HashSet<ulong>(allowedUsersConfiguration?.Users?.Select(x => ulong.Parse(x))
                 ?? Enumerable.Empty<ulong>());
+            _roles = new HashSet<string>(allowedUsersConfiguration.Roles);
         }
 
+        /// <summary>
+        /// Gets whether or not <paramref name="user"/> can invoke operations on the bot or not.
+        /// </summary>
+        /// <param name="guild">Guild to get roles from.</param>
+        /// <param name="user">User to match.</param>
+        /// <returns>true if the user has permission; false otherwise.</returns>
         public bool HasPermission(SocketGuild guild, SocketUser user)
         {
-            if (Interlocked.CompareExchange(ref isInitialized, 1, 0) == 0)
+            if (guild == null)
             {
-                var roles = new HashSet<string>(_allowedUsersConfiguration.Roles);
-
-                var members = guild.Roles
-                    .Where(role => roles.Contains(role.Id.ToString()) || roles.Contains(role.Name))
-                    .SelectMany(role => role.Members);
-
-                if (!members.Any())
-                {
-                    _logger.LogWarning("Could not find any users in roles: {Roles}", _allowedUsersConfiguration.Roles);
-                }
-
-                foreach (var member in members)
-                {
-                    if (!_allowedUsers.Contains(member.Id))
-                    {
-                        _allowedUsers.Add(member.Id);
-                    }
-                }
+                throw new ArgumentNullException(nameof(guild));
+            }
+            else if (user == null)
+            {
+                throw new ArgumentNullException(nameof(user));
             }
 
-            return _allowedUsers.Contains(user.Id);
+            if (_allowedUsers.Contains(user.Id))
+            {
+                return true;
+            }
+
+            return guild.Roles
+                .Where(role => _roles.Contains(role.Id.ToString()) || _roles.Contains(role.Name))
+                .Any(role => role.Members.Any(member => user.Id == member.Id));
         }
     }
 }

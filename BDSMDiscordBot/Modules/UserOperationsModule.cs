@@ -69,7 +69,7 @@ namespace DiscordImporterBot
             _logger.LogInformation("{RequestId}: Queued.", requestId);
         }
 
-        [Command("clear-noobs")]
+        [Command("clear")]
         [Summary("Removes a role from users who have had the role longer than 2 weeks.")]
         public async Task RemoveRoleAsync(
             [Summary("Role to remove")]string role = ".")
