@@ -8,7 +8,7 @@ using Discord;
 using Discord.WebSocket;
 using Microsoft.Extensions.Logging;
 
-namespace DiscordImporterBot.Work
+namespace BDSMDiscordBot.Work
 {
     public class DownloadRoleUsersWork : IWork
     {

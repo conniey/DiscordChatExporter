@@ -1,12 +1,12 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
+using BDSMDiscordBot.Configuration;
+using BDSMDiscordBot.Work;
 using Discord.Commands;
-using DiscordImporterBot.Configuration;
-using DiscordImporterBot.Work;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace DiscordImporterBot
+namespace BDSMDiscordBot
 {
     public class UploadLogModule : ModuleBase<SocketCommandContext>
     {

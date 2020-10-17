@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Reflection;
 using System.Threading.Tasks;
+using BDSMDiscordBot.Configuration;
 using Discord.Commands;
 using Discord.WebSocket;
-using DiscordImporterBot.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace DiscordImporterBot
+namespace BDSMDiscordBot
 {
     public class CommandHandler : IDisposable
     {

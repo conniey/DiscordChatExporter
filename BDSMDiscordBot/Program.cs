@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Text.Json;
 using System.Threading.Tasks;
+using BDSMDiscordBot.Configuration;
+using BDSMDiscordBot.Models;
+using BDSMDiscordBot.Work;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using DiscordImporterBot.Configuration;
-using DiscordImporterBot.Models;
-using DiscordImporterBot.Work;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -15,7 +14,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Serilog;
 
-namespace DiscordImporterBot
+namespace BDSMDiscordBot
 {
     public class Program
     {

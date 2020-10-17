@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using BDSMDiscordBot.Models;
 
-namespace DiscordImporterBot.Models
+namespace BDSMDiscordBot.Models
 {
     public class ExportedLog
     {

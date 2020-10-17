@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace DiscordImporterBot.Work
+namespace BDSMDiscordBot.Work
 {
     /// <summary>
     /// https://docs.microsoft.com/en-us/aspnet/core/fundamentals/host/hosted-services#queued-background-tasks

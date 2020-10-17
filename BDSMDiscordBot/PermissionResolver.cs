@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BDSMDiscordBot.Configuration;
 using Discord.WebSocket;
-using DiscordImporterBot.Configuration;
 using Microsoft.Extensions.Options;
 
-namespace DiscordImporterBot
+namespace BDSMDiscordBot
 {
     /// <summary>
     /// Resolves permissions and whether a user can use a command.

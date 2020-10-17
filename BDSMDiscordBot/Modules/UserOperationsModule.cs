@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using BDSMDiscordBot.Models;
+using BDSMDiscordBot.Work;
 using Discord.Commands;
-using Discord.WebSocket;
-using DiscordImporterBot.Work;
 using Microsoft.Extensions.Logging;
 
-namespace DiscordImporterBot
+namespace BDSMDiscordBot
 {
     /// <summary>
     /// Functions dealing with users.
@@ -92,14 +92,6 @@ namespace DiscordImporterBot
                 return;
             }
 
-            DateTimeOffset dateTimeOffset = DateTimeOffset.UtcNow.AddDays(-14);
-            bool isOlderThanTwoWeeks(SocketGuildUser x)
-            {
-                // -1 means that the joinDate is earlier than the cut-off date.
-                return !x.IsBot && x.JoinedAt.HasValue && x.JoinedAt.Value.CompareTo(dateTimeOffset) == -1;
-            };
-
-
             if (string.IsNullOrEmpty(role))
             {
                 await Context.Channel.SendMessageAsync("'role' cannot be a null or empty string.")
@@ -107,8 +99,10 @@ namespace DiscordImporterBot
                 return;
             }
 
+            var cutoffDate = DateTimeOffset.UtcNow.AddDays(-14);
             var work = new RemoveRoleWork($"clear-{role}", Context.Channel, Context.Guild, role,
-                $"Removing '{role}' from users older than {dateTimeOffset:R}.", isOlderThanTwoWeeks,
+                $"Removing '{role}' from users older than {cutoffDate:R}.",
+                user => user.IsJoinDateOlderThan(cutoffDate),
                 _loggerFactory.CreateLogger<RemoveRoleWork>());
 
             _taskQueue.QueueBackgroundWorkItem(work);

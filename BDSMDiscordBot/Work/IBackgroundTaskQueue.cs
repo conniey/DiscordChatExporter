@@ -1,8 +1,7 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 
-namespace DiscordImporterBot.Work
+namespace BDSMDiscordBot.Work
 {
     /// <summary>
     /// https://docs.microsoft.com/aspnet/core/fundamentals/host/hosted-services#queued-background-tasks

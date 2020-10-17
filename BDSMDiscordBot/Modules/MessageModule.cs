@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
 using Discord.Commands;
-using DiscordImporterBot;
 using Microsoft.Extensions.Logging;
 
 namespace BDSMDiscordBot.Modules
 {
+    [Group("message")]
     public class MessageModule : ModuleBase<SocketCommandContext>
     {
         private readonly ContentResolver _contentResolver;
@@ -15,7 +15,6 @@ namespace BDSMDiscordBot.Modules
             _contentResolver = contentResolver;
             _logger = logger;
         }
-
 
         /// <summary>
         /// Resolves and returns an embed with the given message.

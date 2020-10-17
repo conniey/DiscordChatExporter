@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using DiscordImporterBot.Work;
+using BDSMDiscordBot.Work;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace DiscordImporterBot
+namespace BDSMDiscordBot
 {
     public class MessageUploaderService : BackgroundService
     {

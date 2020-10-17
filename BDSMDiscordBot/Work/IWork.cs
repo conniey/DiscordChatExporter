@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-namespace DiscordImporterBot.Work
+namespace BDSMDiscordBot.Work
 {
     /// <summary>
     /// Represents some long running work.

@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 using BDSMDiscordBot.Models;
 using Discord;
 using Discord.WebSocket;
-using DiscordImporterBot.Models;
 using Microsoft.Extensions.Logging;
 
-namespace DiscordImporterBot.Work
+namespace BDSMDiscordBot.Work
 {
     public class UploadLogWork : IWork
     {

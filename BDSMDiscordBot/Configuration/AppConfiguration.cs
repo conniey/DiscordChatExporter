@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace DiscordImporterBot.Configuration
+namespace BDSMDiscordBot.Configuration
 {
     public class AppConfiguration
     {

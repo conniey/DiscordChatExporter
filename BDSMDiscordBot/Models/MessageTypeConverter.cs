@@ -3,7 +3,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using BDSMDiscordBot.Models;
 
-namespace DiscordImporterBot.Models
+namespace BDSMDiscordBot.Models
 {
     class MessageTypeConverter : JsonConverter<ChannelMessageType>
     {

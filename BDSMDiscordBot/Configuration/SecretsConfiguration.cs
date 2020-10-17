@@ -1,4 +1,4 @@
-﻿namespace DiscordImporterBot.Configuration
+﻿namespace BDSMDiscordBot.Configuration
 {
     public class SecretsConfiguration
     {

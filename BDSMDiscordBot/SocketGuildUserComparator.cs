@@ -2,7 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using Discord.WebSocket;
 
-namespace DiscordImporterBot
+namespace BDSMDiscordBot
 {
     public class SocketGuildUserComparator : IEqualityComparer<SocketGuildUser>
     {

@@ -2,13 +2,13 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using BDSMDiscordBot.Configuration;
 using Discord;
 using Discord.WebSocket;
-using DiscordImporterBot.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace DiscordImporterBot
+namespace BDSMDiscordBot
 {
     public class ContentResolver
     {

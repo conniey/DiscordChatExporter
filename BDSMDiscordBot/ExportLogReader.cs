@@ -1,17 +1,15 @@
-﻿using DiscordImporterBot.Configuration;
-using DiscordImporterBot.Models;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using BDSMDiscordBot.Configuration;
+using BDSMDiscordBot.Models;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
-namespace DiscordImporterBot
+namespace BDSMDiscordBot
 {
     public class ExportLogReader
     {
