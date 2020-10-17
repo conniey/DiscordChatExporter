@@ -13,20 +13,17 @@ namespace DiscordImporterBot
         private readonly ExportLogReader _exportLogReader;
         private readonly IBackgroundTaskQueue _workQueue;
         private readonly PermissionResolver _permissionResolver;
-        private readonly ContentResolver _contentResolver;
         private readonly ILogger<UploadLogModule> _logger;
         private readonly ILogger<UploadLogWork> _workItemLogger;
         private readonly string _contentRoot;
 
         public UploadLogModule(ExportLogReader exportLogReader, IBackgroundTaskQueue workQueue,
-            PermissionResolver permissionResolver, ContentResolver contentResolver,
-            IOptions<AppConfiguration> appConfiguration, ILogger<UploadLogModule> logger,
-            ILogger<UploadLogWork> workItemLogger)
+            PermissionResolver permissionResolver, IOptions<AppConfiguration> appConfiguration,
+            ILogger<UploadLogModule> logger, ILogger<UploadLogWork> workItemLogger)
         {
             _exportLogReader = exportLogReader;
             _workQueue = workQueue;
             _permissionResolver = permissionResolver;
-            _contentResolver = contentResolver;
             _logger = logger;
             _workItemLogger = workItemLogger;
             _contentRoot = appConfiguration.Value.RootDirectory;
@@ -77,17 +74,6 @@ namespace DiscordImporterBot
 
             _workQueue.QueueBackgroundWorkItem(workItem);
             _logger.LogDebug("\t- Queued work. File: {Filename}.", filename);
-        }
-
-
-        [Command("fetch")]
-        [Summary("Fetches the given message.")]
-        public async Task FetchMessageAsync(
-            [Summary("url")] string url)
-        {
-            _logger.LogInformation("Fetching: {Url}", url);
-            var message = await _contentResolver.GetMessageAsync(url).ConfigureAwait(false);
-            _logger.LogInformation("Fetched: {Message}", message);
         }
     }
 }

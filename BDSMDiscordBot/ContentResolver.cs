@@ -38,7 +38,7 @@ namespace DiscordImporterBot
         /// Only works in current guild.
         /// https://discordapp.com/channels/320009916863479808/755402562907406417/759868716086460481
         /// </summary>
-        /// <param name="url"></param>
+        /// <param name="url">URL to fetch.</param>
         /// <returns>null if it was not the correct guild or url is not a message link.</returns>
         public async Task<IMessage> GetMessageAsync(string url)
         {

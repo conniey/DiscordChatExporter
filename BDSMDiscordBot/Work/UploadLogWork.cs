@@ -164,7 +164,6 @@ namespace DiscordImporterBot.Work
                 _logger.LogDebug("\t\t{MessageId} uses relative thumbnail path. Uploading: {ThumbnailUri}",
                     message.Id, embed.Thumbnail.Url);
 
-                //var builder = new EmbedBuilder { ImageUrl =  };
                 var embedUrl = new Uri(embed.Url);
                 var name = embedUrl.Segments.Last();
                 var fileInfo = new FileInfo(Path.Combine(_filesDirectory, embed.Thumbnail.Url));
@@ -208,10 +207,20 @@ namespace DiscordImporterBot.Work
                 .ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Adds embedded information about the original poster.
+        /// </summary>
+        ///
+        /// <example>
+        /// Foo#0699 (487852179252576256)
+        /// 2020-09-27T00:30:20	Id: 759572600338120714
+        /// </example>
+        /// <param name="message">Original message information.</param>
+        /// <returns>The embedded builder.</returns>
         private EmbedBuilder WithOriginalInformation(ChannelMessage message)
         {
             return new EmbedBuilder()
-                .WithAuthor(builder => builder.WithName($"{message.Author.FullName} ({message.Author.Id})"))
+                .WithAuthor(builder => builder.WithName($"{message.Author.FullName()} ({message.Author.Id})"))
                 .WithFooter(builder => builder.WithText($"{message.Timestamp:s}\tId: {message.Id}"));
         }
     }

@@ -8,6 +8,9 @@ using Microsoft.Extensions.Logging;
 
 namespace DiscordImporterBot
 {
+    /// <summary>
+    /// Functions dealing with users.
+    /// </summary>
     [Group("users")]
     public class UserOperationsModule : ModuleBase<SocketCommandContext>
     {
@@ -25,6 +28,13 @@ namespace DiscordImporterBot
             _loggerFactory = loggerFactory;
         }
 
+        /// <summary>
+        /// Exports users who have a certain role from the executing server to the next one.
+        /// </summary>
+        /// <param name="destinationGuildId">Destination Discord server.</param>
+        /// <param name="destinationChannelId">Destination channel.</param>
+        /// <param name="roles">Roles to match. This is the intersection of all the roles there.</param>
+        /// <returns>Task when it completes.</returns>
         [Command("export")]
         [Summary("Exports users who match a particular set of roles.")]
         public async Task ExportUsersAsync(
@@ -66,6 +76,11 @@ namespace DiscordImporterBot
             _logger.LogInformation("{RequestId}: Queued.", requestId);
         }
 
+        /// <summary>
+        /// Removes a role from useres who have the matching role. By default it removes the "." (ie. newbie) role.
+        /// </summary>
+        /// <param name="role">The role to remove.</param>
+        /// <returns>Task when it completes.</returns>
         [Command("clear")]
         [Summary("Removes a role from users who have had the role longer than 2 weeks.")]
         public async Task RemoveRoleAsync(
