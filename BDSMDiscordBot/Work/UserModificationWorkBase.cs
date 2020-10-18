@@ -13,6 +13,12 @@ namespace BDSMDiscordBot.Work
 {
     public abstract class UserModificationWorkBase : IWork
     {
+        private static readonly string TOTAL = "Total";
+        private static readonly string SUCCESS = "Success";
+        private static readonly string FAILED = "Failed";
+
+        private static readonly int CHARACTER_LIMIT = 2000;
+
         private readonly string _description;
         private readonly SocketGuild _guild;
         private readonly ISocketMessageChannel _executedChannel;
@@ -52,8 +58,8 @@ namespace BDSMDiscordBot.Work
         {
             _logger.LogInformation("Started '{RequestId}': {Description}.", RequestId, _description);
 
-            var usersToRemove = await GetMatchingUsers(_guild).ConfigureAwait(false);
-            if (usersToRemove == default)
+            var usersToModify = await GetMatchingUsers(_guild).ConfigureAwait(false);
+            if (usersToModify == default)
             {
                 _logger.LogInformation("There was a problem getting matching users.");
                 return;
@@ -61,24 +67,26 @@ namespace BDSMDiscordBot.Work
 
             var failed = new List<SocketGuildUser>();
             var successful = new List<SocketGuildUser>();
-            var stringBuilder = new StringBuilder();
 
-            if (usersToRemove.Any())
+            if (usersToModify.Any())
             {
-                stringBuilder.AppendLine($"Joined at\t\tUser");
-            }
-            else
-            {
-                stringBuilder.AppendLine("There were no matching users.");
+                var embed = new EmbedBuilder()
+                    .WithDescription("There were no matching users.")
+                    .AddField(TOTAL, usersToModify.Count, inline: true)
+                    .AddField(SUCCESS, successful.Count, inline: true)
+                    .AddField(FAILED, failed.Count, inline: true)
+                    .Build();
+
+                await _executedChannel.SendMessageAsync(_description, embed: embed).ConfigureAwait(false);
+                return;
             }
 
-            for (int i = 0; i < usersToRemove.Count; i++)
+            for (int i = 0; i < usersToModify.Count; i++)
             {
-                SocketGuildUser user = usersToRemove[i];
+                SocketGuildUser user = usersToModify[i];
                 try
                 {
                     _logger.LogInformation("Modifying: {JoinedAt}\t@{User}", user.JoinedAt, user.ToDisplayName());
-                    stringBuilder.AppendLine($"{user.JoinedAt:u}\t<@{user.Id}>");
 
                     await ModifyUserAsync(user).ConfigureAwait(false);
                     successful.Add(user);
@@ -90,20 +98,70 @@ namespace BDSMDiscordBot.Work
                 }
             }
 
-            var embedBuilder = new EmbedBuilder().WithDescription(stringBuilder.ToString());
-
-            if (failed.Any())
+            var allEmbeds = GetEmbeds(successful, true).Concat(GetEmbeds(failed, false)).ToList();
+            for (int i = 0; i < allEmbeds.Count; i++)
             {
-                embedBuilder.AddField("Failed", string.Join(", ", failed.Select(x => x.Id)));
+                var embed = allEmbeds[i];
+                if (i == 0)
+                {
+                    await _executedChannel.SendMessageAsync(_description, embed: embed).ConfigureAwait(false);
+                }
+            }
+        }
+
+        static List<Embed> GetEmbeds(List<SocketGuildUser> users, bool isSuccess)
+        {
+            List<Embed> embeds = new List<Embed>();
+
+            List<SocketGuildUser> onNext = users;
+            while (onNext.Any())
+            {
+                Embed embed = GetEmbed(onNext, users.Count, isSuccess, out var remaining);
+                embeds.Add(embed);
+
+                onNext = remaining;
             }
 
-            embedBuilder
-                .AddField("Total", usersToRemove.Count, inline: true)
-                .AddField("Success", successful.Count, inline: true)
-                .AddField("Failed", failed.Count, inline: true);
+            return embeds;
+        }
 
-            await _executedChannel.SendMessageAsync(_description, embed: embedBuilder.Build())
-                .ConfigureAwait(false);
+        static Embed GetEmbed(List<SocketGuildUser> users, int total, bool isSuccess,
+            out List<SocketGuildUser> remainingUsers)
+        {
+            var builder = new StringBuilder("Joined at\t\tUser");
+            int number = 0;
+
+            for (int i = 0; i < users.Count; i++)
+            {
+                var user = users[i];
+                var contents = $"{user.JoinedAt:u}\t<@{user.Id}>";
+
+                if ((builder.Length + contents.Length) > CHARACTER_LIMIT)
+                {
+                    break;
+                }
+
+                builder.Append(contents);
+                number = i;
+            }
+
+            var embedBuilder = new EmbedBuilder()
+                .WithDescription(builder.ToString())
+                .AddField(TOTAL, total, inline: true);
+
+            if (isSuccess)
+            {
+                embedBuilder.AddField(SUCCESS, number, inline: true)
+                    .AddField(FAILED, "n/a", inline: true);
+            }
+            else
+            {
+                embedBuilder.AddField(SUCCESS, "n/a", inline: true)
+                    .AddField(FAILED, number, inline: true);
+            }
+
+            remainingUsers = number < users.Count ? users.Skip(number).ToList() : new List<SocketGuildUser>();
+            return embedBuilder.Build();
         }
     }
 }

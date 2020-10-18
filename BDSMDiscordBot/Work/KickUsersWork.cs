@@ -38,6 +38,7 @@ namespace BDSMDiscordBot.Work
 
             var unverifiedUsers = _guild.Users.Except(socketRole.Members)
                 .Where(x => x.IsJoinDateOlderThan(_cutoffDate))
+                .OrderBy(x => x.JoinedAt)
                 .ToList();
 
             return unverifiedUsers;
@@ -45,7 +46,8 @@ namespace BDSMDiscordBot.Work
 
         protected override Task ModifyUserAsync(SocketGuildUser user)
         {
-            return user.KickAsync("We require users to verify within two weeks. Feel free to rejoin when you wish to verify.");
+            return Task.CompletedTask;
+            //return user.KickAsync("We require users to verify within two weeks. Feel free to rejoin when you wish to verify.");
         }
     }
 }

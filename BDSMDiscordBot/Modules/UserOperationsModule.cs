@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using BDSMDiscordBot.Work;
 using Discord.Commands;
@@ -115,7 +114,7 @@ namespace BDSMDiscordBot
         [Command("kick")]
         [Summary("Kicks users who only have the Newbie role and have not been verified yet.")]
         public async Task KickNewbiesAsync(
-            [Summary("Verified role name")] string verifiedRole = ".")
+            [Summary("Verified role name")] string verifiedRole = "18+✔️")
         {
             if (!_permissionResolver.HasPermission(Context.Guild, Context.User))
             {
@@ -129,16 +128,9 @@ namespace BDSMDiscordBot
                 return;
             }
 
-            var socketRole = Context.Guild.Roles.Where(x => x.Name.Equals(verifiedRole)).SingleOrDefault();
-            if (socketRole == default)
-            {
-                _logger.LogWarning("Could not locate matching '{Role}' role.", verifiedRole);
-                return;
-            }
-
             var cutoffDate = DateTimeOffset.UtcNow.AddDays(-14);
             var work = new KickUsersWork($"clear-{verifiedRole}", Context.Channel, Context.Guild,
-                $"Kicking users older than {cutoffDate:R} and not verified.",
+                $"Kicking users older than {cutoffDate:R} and not verified",
                 _loggerFactory.CreateLogger<KickUsersWork>(), cutoffDate, verifiedRole);
 
             _taskQueue.QueueBackgroundWorkItem(work);
