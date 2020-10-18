@@ -5,18 +5,19 @@ VisualStudioVersion = 16.0.28729.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EA305DD5-1F98-415D-B6C4-65053A58F914}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
 		Changelog.md = Changelog.md
-		License.txt = License.txt
-		Readme.md = Readme.md
 		DiscordChatExporter.props = DiscordChatExporter.props
 		Dockerfile = Dockerfile
+		License.txt = License.txt
+		Readme.md = Readme.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscordChatExporter.Gui", "DiscordChatExporter.Gui\DiscordChatExporter.Gui.csproj", "{732A67AF-93DE-49DF-B10F-FD74710B7863}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiscordChatExporter.Gui", "DiscordChatExporter.Gui\DiscordChatExporter.Gui.csproj", "{732A67AF-93DE-49DF-B10F-FD74710B7863}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiscordChatExporter.Cli", "DiscordChatExporter.Cli\DiscordChatExporter.Cli.csproj", "{D08624B6-3081-4BCB-91F8-E9832FACC6CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscordChatExporter.Domain", "DiscordChatExporter.Domain\DiscordChatExporter.Domain.csproj", "{E19980B9-2B84-4257-A517-540FF1E3FCDD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiscordChatExporter.Domain", "DiscordChatExporter.Domain\DiscordChatExporter.Domain.csproj", "{E19980B9-2B84-4257-A517-540FF1E3FCDD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
