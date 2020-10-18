@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using BDSMDiscordBot.Models;
 using BDSMDiscordBot.Work;
 using Discord.Commands;
 using Microsoft.Extensions.Logging;
@@ -91,7 +91,6 @@ namespace BDSMDiscordBot
                 _logger.LogWarning("{User} does not have permission to remove roles.", Context.User.Username);
                 return;
             }
-
             if (string.IsNullOrEmpty(role))
             {
                 await Context.Channel.SendMessageAsync("'role' cannot be a null or empty string.")
@@ -100,10 +99,47 @@ namespace BDSMDiscordBot
             }
 
             var cutoffDate = DateTimeOffset.UtcNow.AddDays(-14);
-            var work = new RemoveRoleWork($"clear-{role}", Context.Channel, Context.Guild, role,
+            var work = new RemoveRoleWork($"clear-{role}", Context.Channel, Context.Guild,
                 $"Removing '{role}' from users older than {cutoffDate:R}.",
-                user => user.IsJoinDateOlderThan(cutoffDate),
-                _loggerFactory.CreateLogger<RemoveRoleWork>());
+                _loggerFactory.CreateLogger<RemoveRoleWork>(), cutoffDate, role);
+
+            _taskQueue.QueueBackgroundWorkItem(work);
+            _logger.LogInformation("{RequestId}: Queued.", work.RequestId);
+        }
+
+        /// <summary>
+        /// Kicks users who are unverified and have been there longer than two weeks.
+        /// </summary>
+        /// <param name="verifiedRole">The name of the verified role.</param>
+        /// <returns>Task when it completes.</returns>
+        [Command("kick")]
+        [Summary("Kicks users who only have the Newbie role and have not been verified yet.")]
+        public async Task KickNewbiesAsync(
+            [Summary("Verified role name")] string verifiedRole = ".")
+        {
+            if (!_permissionResolver.HasPermission(Context.Guild, Context.User))
+            {
+                _logger.LogWarning("{User} does not have permission to kick.", Context.User.Username);
+                return;
+            }
+            if (string.IsNullOrEmpty(verifiedRole))
+            {
+                await Context.Channel.SendMessageAsync("'role' cannot be a null or empty string.")
+                    .ConfigureAwait(false);
+                return;
+            }
+
+            var socketRole = Context.Guild.Roles.Where(x => x.Name.Equals(verifiedRole)).SingleOrDefault();
+            if (socketRole == default)
+            {
+                _logger.LogWarning("Could not locate matching '{Role}' role.", verifiedRole);
+                return;
+            }
+
+            var cutoffDate = DateTimeOffset.UtcNow.AddDays(-14);
+            var work = new KickUsersWork($"clear-{verifiedRole}", Context.Channel, Context.Guild,
+                $"Kicking users older than {cutoffDate:R} and not verified.",
+                _loggerFactory.CreateLogger<KickUsersWork>(), cutoffDate, verifiedRole);
 
             _taskQueue.QueueBackgroundWorkItem(work);
             _logger.LogInformation("{RequestId}: Queued.", work.RequestId);

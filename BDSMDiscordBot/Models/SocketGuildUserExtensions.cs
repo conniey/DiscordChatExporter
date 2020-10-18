@@ -18,5 +18,7 @@ namespace BDSMDiscordBot.Models
         {
             return !user.IsBot && user.JoinedAt.HasValue && user.JoinedAt.Value.CompareTo(date) == -1;
         }
+
+        public static string ToDisplayName(this SocketGuildUser user) => $"{user.Username}:{user.Discriminator}";
     }
 }
